@@ -14,18 +14,10 @@ class BarcodeService {
       
     }
 
-    // 1
     public func fetch(ticketNumber: String) -> String? {
         
-        return "test"
-//      URLSession.shared.dataTask(with: url) { (data, _, _) in
-//        guard let data = data else { return }
-//        DispatchQueue.main.async {
-//          return data
-//        }
-//      }.resume()
-//
-//        return nil
+        return "sharedSecret"
+
     }
 
 }

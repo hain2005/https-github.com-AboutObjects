@@ -8,19 +8,19 @@
 import Foundation
 
 public struct Ticket {
-    let BarcodeIndicator : String
-    let BarcodeType : String
-    let Number : String
-    let Section : String
-    let Row : String
-    let Seat : String
-    let BuyerTypeCode : String
-    let PriceScaleCode : String
-    let EventID : String
-    let ScanMediaTypet : String
-    var TOTP : String
+    public let BarcodeIndicator : String
+    public let BarcodeType : String
+    public let Number : String
+    public let Section : String
+    public let Row : String
+    public let Seat : String
+    public let BuyerTypeCode : String
+    public let PriceScaleCode : String
+    public let EventID : String
+    public let ScanMediaTypet : String
+    public var TOTP : String
     
-    var BarcodeString : String {
+    public var BarcodeString : String {
         return BarcodeIndicator + BarcodeType
     }
 }
