@@ -12,7 +12,11 @@ final class MLBBarcodeTests: XCTestCase {
         let ticket = Ticket(ticketNumber: "123456")
         if #available(iOS 14, *) {
             //let barCodeImage: Image?
-            let mblBarcode = MLBBarcode(ticket: ticket)
+            var mblBarcode = MLBBarcode(ticket: ticket)
+            
+            mblBarcode.generateTicket { image in
+                _ = image
+            }
 //            if let image = mblBarcode.generateTicket() {
 //                //barCodeImage = Image(uiImage: image)
 //            }
