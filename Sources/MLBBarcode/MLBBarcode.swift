@@ -14,7 +14,7 @@ public struct MLBBarcode {
         barcodeViewModel = BarcodeViewModel(myTicket: myTicket)
     }
     
-    func generateTicket() -> UIImage? {
+    public func generateTicket() -> UIImage? {
         
         if let output = barcodeViewModel.generateTicket(myTicket: myTicket) {
             return UIImage(ciImage: output)
