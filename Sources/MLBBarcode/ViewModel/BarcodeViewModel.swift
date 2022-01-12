@@ -23,13 +23,13 @@ public class BarcodeViewModel: ObservableObject {
         let sharedSecret = barcodeService.fetch(ticketNumber: ticketNumber)
         let timeStamp = NSDate().timeIntervalSince1970
         ticket.TOTP = hashIt(string: sharedSecret ?? "" + String(timeStamp))
-        return createBC(bcString: ticket.BarcodeString)
+        return createBC(bcString: ticket.barcodeString)
     }
     
     func generateTicket(myTicket: Ticket) -> CIImage? {
         
         ticket = myTicket
-        return fetch(ticketNumber: ticket.Number)
+        return fetch(ticketNumber: ticket.ticketNumber)
 
     }
     
@@ -45,7 +45,7 @@ public class BarcodeViewModel: ObservableObject {
             let transform = CGAffineTransform(scaleX: 3, y: 3)
 
             if let output = filter.outputImage?.transformed(by: transform) {
-                 return output //UIImage(ciImage: output)
+                 return output
             }
         }
         return nil

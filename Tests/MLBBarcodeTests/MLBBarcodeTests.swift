@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import MLBBarcode
 
 final class MLBBarcodeTests: XCTestCase {
@@ -7,5 +8,21 @@ final class MLBBarcodeTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
         //XCTAssertEqual(MLBBarcode().text, "Hello, World!")
+        
+        let ticket = Ticket(ticketNumber: "123456")
+        if #available(iOS 14, *) {
+            //let barCodeImage: Image?
+            let mblBarcode = MLBBarcode(ticket: ticket)
+            if let image = mblBarcode.generateTicket() {
+                //barCodeImage = Image(uiImage: image)
+            }
+            else {
+                //barCodeImage = Image("PDF417")
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+
     }
 }

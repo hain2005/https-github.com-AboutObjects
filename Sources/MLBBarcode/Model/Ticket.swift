@@ -8,22 +8,22 @@
 import Foundation
 
 public struct Ticket {
-    public let BarcodeIndicator : String = ""
-    public let BarcodeType : String = ""
-    public let Number : String = ""
-    public let Section : String = ""
-    public let Row : String = ""
-    public let Seat : String = ""
-    public let BuyerTypeCode : String = ""
-    public let PriceScaleCode : String = ""
-    public let EventID : String = ""
-    public let ScanMediaTypet : String = ""
+    public let barcodeIndicator : String = ""
+    public let barcodeType : String = ""
+    public let ticketNumber : String
+    public let section : String = ""
+    public let row : String = ""
+    public let seat : String = ""
+    public let buyerTypeCode : String = ""
+    public let priceScaleCode : String = ""
+    public let eventID : String = ""
+    public let scanMediaTypet : String = ""
     public var TOTP : String = ""
     
-    public var BarcodeString : String {
-        return BarcodeIndicator + BarcodeType
+    public var barcodeString : String {
+        return barcodeIndicator + ticketNumber + TOTP
     }
-    public init() {
-        
+    public init(ticketNumber: String) {
+        self.ticketNumber = ticketNumber
     }
 }
