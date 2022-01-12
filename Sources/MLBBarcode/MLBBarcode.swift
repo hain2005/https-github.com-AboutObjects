@@ -17,7 +17,7 @@ public struct MLBBarcode {
      }
 
     
-    mutating func generateTicket(completionHandler: @escaping (_ image: UIImage) -> Void){
+    mutating public func generateTicket(completionHandler: @escaping (_ image: UIImage) -> Void){
          //.. Code process
         
         let barcodeViewModel = BarcodeViewModel(myTicket: myTicket)
