@@ -4,7 +4,6 @@ import UIKit
 
 @available(iOS 14, macOS 11.0, *)
 public struct MLBBarcode {
-    public private(set) var text = "Hello, World!"
     
     let barcodeViewModel : BarcodeViewModel
 
