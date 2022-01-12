@@ -7,6 +7,13 @@
 
 import Foundation
 
+public enum Descriptor: String {
+    case code128 = "CICode128BarcodeGenerator"
+    case pdf417 = "CIPDF417BarcodeGenerator"
+    case aztec = "CIAztecCodeGenerator"
+    case qr = "CIQRCodeGenerator"
+}
+
 public struct Ticket {
     public let barcodeIndicator : String = ""
     public let barcodeType : String = ""

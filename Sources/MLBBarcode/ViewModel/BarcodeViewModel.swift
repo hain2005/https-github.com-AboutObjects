@@ -23,7 +23,14 @@ public class BarcodeViewModel: ObservableObject {
         let sharedSecret = barcodeService.fetch(ticketNumber: ticketNumber)
         let timeStamp = NSDate().timeIntervalSince1970
         ticket.TOTP = hashIt(string: sharedSecret ?? "" + String(timeStamp))
-        return createBC(bcString: ticket.barcodeString)
+        
+        if let image = createBC(from: ticket.barcodeString,
+                                descriptor: .pdf417,
+                                     size: CGSize(width: 800, height: 300)) {
+            return image
+            
+        }
+        return nil
     }
     
     func generateTicket(myTicket: Ticket) -> CIImage? {
@@ -37,19 +44,48 @@ public class BarcodeViewModel: ObservableObject {
         return string
     }
     
-    private func createBC(bcString: String) -> CIImage? {
+    private func createBC(from string: String,
+                          descriptor: Descriptor,
+                                size: CGSize) -> CIImage? {
         
-        let data = bcString.data(using: String.Encoding.ascii)
-        if let filter = CIFilter(name: "CICode128BarcodeGenerator") {
-            filter.setValue(data, forKey: "inputMessage")
-            let transform = CGAffineTransform(scaleX: 3, y: 3)
+        let filterName = descriptor.rawValue
 
-            if let output = filter.outputImage?.transformed(by: transform) {
-                 return output
-            }
+        guard let data = string.data(using: .ascii),
+            let filter = CIFilter(name: filterName) else {
+                return nil
         }
-        return nil
+
+        filter.setValue(data, forKey: "inputMessage")
+
+        guard let image = filter.outputImage else {
+            return nil
+        }
+
+        let imageSize = image.extent.size
+
+        let transform = CGAffineTransform(scaleX: size.width / imageSize.width,
+                                               y: size.height / imageSize.height)
+        let scaledImage = image.transformed(by: transform)
+
+        return scaledImage
+        
+//        let data = bcString.data(using: String.Encoding.ascii)
+//        if let filter = CIFilter(name: "CICode128BarcodeGenerator") {
+//            filter.setValue(data, forKey: "inputMessage")
+//            let transform = CGAffineTransform(scaleX: 3, y: 3)
+//
+//            if let output = filter.outputImage?.transformed(by: transform) {
+//                 return output
+//            }
+//        }
+//        return nil
     }
     
+    private func convertCIImageToUIImage(ciimage : CIImage) -> UIImage{
+        let context : CIContext = CIContext.init(options: nil)
+        let cgImage : CGImage = context.createCGImage(ciimage, from: ciimage.extent)!
+        let image : UIImage = UIImage.init(cgImage: cgImage)
+        return image
+    }
 }
 
