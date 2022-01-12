@@ -16,7 +16,7 @@ class BarcodeService {
 
     public func fetch(ticketNumber: String) -> String? {
         
-        return "sharedSecret"
+        return String(Int.random(in: 1..<10000))
 
     }
 

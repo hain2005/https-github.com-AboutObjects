@@ -5,7 +5,7 @@ import UIKit
 @available(iOS 14, macOS 11.0, *)
 public struct MLBBarcode {
     
-    let barcodeViewModel : BarcodeViewModel
+    var barcodeViewModel : BarcodeViewModel
 
     private var myTicket : Ticket
     public init(ticket : Ticket) {
