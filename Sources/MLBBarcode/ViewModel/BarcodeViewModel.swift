@@ -33,10 +33,15 @@ public class BarcodeViewModel: ObservableObject {
         return nil
     }
     
-    func generateTicket(myTicket: Ticket) -> CIImage? {
+    func generateTicket(myTicket: Ticket) -> UIImage? {
         
         ticket = myTicket
-        return fetch(ticketNumber: ticket.ticketNumber)
+        if let ciImage = fetch(ticketNumber: ticket.ticketNumber) {
+            return convertCIImageToUIImage(ciimage: ciImage)
+        }
+        else {
+            return nil
+        }
 
     }
     
