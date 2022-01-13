@@ -40,6 +40,8 @@ public struct MLBBarcodeView<Content: View>: View {
             } else {
                 content(placeHolder)
             }
+
+            Text("Refresh in \(timeInterval - currentCount) secs ")
         }
         .onDisappear {
             //self.timer.
