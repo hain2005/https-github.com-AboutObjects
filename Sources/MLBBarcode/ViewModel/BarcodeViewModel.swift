@@ -9,8 +9,9 @@ import Combine
 import SwiftUI
 import CryptoKit
 
-@available(iOS 14, macOS 11.0, *)
+@available(iOS 13, macOS 11.0, *)
 public class BarcodeViewModel: ObservableObject {
+    @Published var imageData = Data()
     @Published var bcImage = UIImage()
     let barcodeService = BarcodeService()
     var ticket: Ticket
@@ -105,5 +106,10 @@ public class BarcodeViewModel: ObservableObject {
         let image : UIImage = UIImage.init(cgImage: cgImage)
         return image
     }
+    
+    public func getImageData() -> Data {
+      return imageData
+    }
+
 }
 
