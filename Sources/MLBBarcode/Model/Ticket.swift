@@ -34,4 +34,3 @@ public struct Ticket {
         self.ticketNumber = ticketNumber
     }
 }
-

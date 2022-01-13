@@ -16,28 +16,11 @@ public class BarcodeViewModel: ObservableObject {
     let barcodeService = BarcodeService()
     var ticket: Ticket
     let timePeriod = 5
-//    var timer : Timer?
-    //var cancellable: Cancellable?
 
     public init(myTicket: Ticket) {
         ticket = myTicket
-        
-//        timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timePeriod), repeats: true) { _ in
-//
-//            if let image = self.generateTicket() {
-//                self.bcImage = image
-//            }
-//
-//        }
-        //timer?.fire()
-
     }
 
-//    deinit {
-//        timer?.invalidate()
-//
-//    }
-    // 1
     public func fetch(ticketNumber: String) -> CIImage? {
         let sharedSecret = barcodeService.fetch(ticketNumber: ticketNumber)
         let timeStamp = NSDate().timeIntervalSince1970
@@ -60,7 +43,6 @@ public class BarcodeViewModel: ObservableObject {
         else {
             return nil
         }
-
     }
     
     private func hashIt(secretKey: String, timestamp: String) -> String {

@@ -13,6 +13,9 @@ public struct MLBBarcodeView<Content: View>: View {
     
     var content: (_ image: Image) -> Content
     let placeHolder: Image = Image("PDF417")
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var currentCount = 0
+    let timeInterval = 5
 
     @ObservedObject var barcodeViewModel: BarcodeViewModel
     @State var barcodeImage: UIImage?
@@ -28,7 +31,6 @@ public struct MLBBarcodeView<Content: View>: View {
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
 
-
         return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
@@ -39,7 +41,16 @@ public struct MLBBarcodeView<Content: View>: View {
                 content(placeHolder)
             }
         }
-        .onAppear(perform: startTimer)
+        .onDisappear {
+            //self.timer.
+        }
+        .onReceive(timer) { input in
+            currentCount += 1
+            if currentCount == timeInterval {
+                loadImage()
+                currentCount = 0
+            }
+        }
     }
 
     private func loadImage() {
@@ -47,11 +58,13 @@ public struct MLBBarcodeView<Content: View>: View {
     }
     
     private func startTimer() {
-        
+
+        loadImage()
         _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(5), repeats: true) { _ in
-        
-            print("loadimage")
-            loadImage()
+
+                print("loadimage")
+                loadImage()
+
         }
     }
 }
