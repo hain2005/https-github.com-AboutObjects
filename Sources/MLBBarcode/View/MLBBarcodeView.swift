@@ -47,7 +47,10 @@ public struct MLBBarcodeView<Content: View>: View {
 
 
         return ZStack() {
-            if image != nil {
+            Text("Barcode Scan Helper")
+                 .padding()
+
+           if image != nil {
                 content(image!)
             } else {
                 content(placeHolder)
