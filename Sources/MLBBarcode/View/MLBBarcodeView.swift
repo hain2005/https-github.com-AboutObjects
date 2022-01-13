@@ -27,6 +27,19 @@ public struct MLBBarcodeView<Content: View>: View {
         self.barcodeViewModel = barcodeViewModel
         self.content = content
     }
+    
+    struct LineSegment: Shape {
+        func path(in rect: CGRect) -> Path {
+            let start = CGPoint(x: 0.0, y: 0.0)
+            let end = CGPoint(x: rect.width, y: rect.height)
+
+            var path = Path()
+            path.move(to: start)
+            path.addLine(to: end)
+            return path
+        }
+    }
+
 
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
@@ -34,7 +47,12 @@ public struct MLBBarcodeView<Content: View>: View {
         return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
-
+            LineSegment()
+                  .stroke(Color(.red) , lineWidth: 4.0)
+                  .frame(width: 200, height: 150)
+                  .scaleEffect(0.5)
+                  .animation(.linear(duration: 1))
+  
            if image != nil {
                 content(image!)
             } else {
