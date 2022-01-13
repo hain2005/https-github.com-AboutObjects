@@ -53,12 +53,34 @@ public struct MLBBarcodeView<Content: View>: View {
                 content(placeHolder)
             }
         }
-        .onAppear(perform: loadImage)
+        .onAppear(perform: startTimer)
     }
 
-  private func loadImage() {
+    private func loadImage() {
       imageData = barcodeViewModel.generateTicket(myTicket: ticket)
-  }
+    }
+    
+    private func startTimer() {
+        
+        _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(5), repeats: true) { _ in
+        
+            print("loadimage")
+                    loadImage()
+        //            if let image = self.generateTicket(myTicket: self.ticket) {
+        //                self.bcImage = image
+        }
+
+    }
+//    private func loadImage() {
+//        let ticket = Ticket(ticketNumber: "123456")
+//
+//        var mblBarcode = MLBBarcode(ticket: ticket)
+//        mblBarcode.generateTicket { image in
+//            barCodeImage = Image(uiImage: image)
+//        }
+//
+//     }
+    
 }
 
 //@available(iOS 13.0.0, *)
