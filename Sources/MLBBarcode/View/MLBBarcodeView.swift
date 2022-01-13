@@ -39,6 +39,42 @@ public struct MLBBarcodeView<Content: View>: View {
             return path
         }
     }
+    struct LineSegment2: Shape {
+        var endPoint: CGPoint
+
+        func path(in rect: CGRect) -> Path {
+            let start = CGPoint(x: 0.0, y: 0.0)
+            let end = CGPoint(x: endPoint.x * rect.width,
+                              y: endPoint.y * rect.height)
+            var path = Path()
+            path.move(to: start)
+            path.addLine(to: end)
+            return path
+        }
+    }
+
+
+    struct LineSegment3: Shape {
+        var endPoint: CGPoint
+
+        var animatableData: AnimatablePair<CGFloat, CGFloat> {
+            get { AnimatablePair(endPoint.x, endPoint.y) }
+            set {
+                endPoint.x = newValue.first
+                endPoint.y = newValue.second
+            }
+        }
+
+        func path(in rect: CGRect) -> Path {
+            let start = CGPoint(x: 0.0, y: 0.0)
+            let end = CGPoint(x: endPoint.x * rect.width,
+                              y: endPoint.y * rect.height)
+            var path = Path()
+            path.move(to: start)
+            path.addLine(to: end)
+            return path
+        }
+    }
 
 
     public var body: some View {
@@ -47,12 +83,14 @@ public struct MLBBarcodeView<Content: View>: View {
         return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
-            LineSegment()
-                  .stroke(Color(.red) , lineWidth: 4.0)
-                  .frame(width: 200, height: 150)
-                  .scaleEffect(0.5)
-                  .animation(.linear(duration: 1))
-  
+            ZStack {
+                LineSegment2(endPoint: CGPoint(
+                                 x: 0.3 ,
+                                y: 0.9))
+                    .stroke( Color(.red), lineWidth: 4.0)
+                    .frame(width: 200, height: 150)
+                    .animation(.linear(duration: 2))
+                }
            if image != nil {
                 content(image!)
             } else {
