@@ -24,11 +24,11 @@ public struct Ticket {
     public let buyerTypeCode : String = ""
     public let priceScaleCode : String = ""
     public let eventID : String = ""
-    public let scanMediaTypet : String = ""
+    public let scanMediaType : String = ""
     public var TOTP : String = ""
     
     public var barcodeString : String {
-        return barcodeIndicator + ticketNumber + TOTP
+        return "@TDC=\(barcodeIndicator)|BCT=\(barcodeType)|TBN=\(ticketNumber)|TSC=\(section)|TRW=\(row)|TSE=\(seat)|TBI=\(buyerTypeCode)|TPC=\(priceScaleCode)|TEV=\(eventID)|SMT=\(scanMediaType)|TOTP=\(TOTP)"
     }
     public init(ticketNumber: String) {
         self.ticketNumber = ticketNumber

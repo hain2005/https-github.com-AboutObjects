@@ -13,12 +13,12 @@ public struct MLBBarcodeView<Content: View>: View {
     
     var content: (_ image: Image) -> Content
     let placeHolder: Image = Image("PDF417")
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var currentCount = 0
     let timeInterval = 5
-
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     @ObservedObject var barcodeViewModel: BarcodeViewModel
     @State var barcodeImage: UIImage?
+    @State var currentCount = 0
 
     public init(
         barcodeViewModel: BarcodeViewModel,
@@ -56,9 +56,19 @@ public struct MLBBarcodeView<Content: View>: View {
     }
 }
 
-//@available(iOS 13.0.0, *)
-//struct MLBBarcodeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MLBBarcodeView()
-//    }
-//}
+@available(iOS 13.0.0, *)
+struct MLBBarcodeView_Previews: PreviewProvider {
+    static var previews: some View {
+        let ticket = Ticket(ticketNumber: "12345")
+        let barcodeViewModel = BarcodeViewModel(myTicket: ticket)
+
+        return VStack {
+            MLBBarcodeView(barcodeViewModel: barcodeViewModel) {
+              $0
+                .resizable()
+                .scaledToFit()
+                .animation(.easeInOut(duration: 1.0))
+            }
+        }
+    }
+}
