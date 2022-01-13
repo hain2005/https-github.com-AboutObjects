@@ -10,12 +10,12 @@ import SwiftUI
 
 @available(iOS 13.0.0, *)
 public struct MLBBarcodeView<Content: View>: View {
-    @ObservedObject var barcodeViewModel: BarcodeViewModel
+    
     var content: (_ image: Image) -> Content
     let placeHolder: Image = Image("PDF417")
 
-    @State var previousURL: URL? = nil
-    @State var imageData: UIImage?
+    @ObservedObject var barcodeViewModel: BarcodeViewModel
+    @State var barcodeImage: UIImage?
 
     public init(
         barcodeViewModel: BarcodeViewModel,
@@ -26,7 +26,7 @@ public struct MLBBarcodeView<Content: View>: View {
     }
 
     public var body: some View {
-        let image = imageData != nil ? Image(uiImage: imageData!) : nil;
+        let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
 
 
         return VStack() {
@@ -43,7 +43,7 @@ public struct MLBBarcodeView<Content: View>: View {
     }
 
     private func loadImage() {
-      imageData = barcodeViewModel.generateTicket()
+      barcodeImage = barcodeViewModel.generateTicket()
     }
     
     private func startTimer() {
@@ -53,18 +53,7 @@ public struct MLBBarcodeView<Content: View>: View {
             print("loadimage")
             loadImage()
         }
-
     }
-//    private func loadImage() {
-//        let ticket = Ticket(ticketNumber: "123456")
-//
-//        var mblBarcode = MLBBarcode(ticket: ticket)
-//        mblBarcode.generateTicket { image in
-//            barCodeImage = Image(uiImage: image)
-//        }
-//
-//     }
-    
 }
 
 //@available(iOS 13.0.0, *)
