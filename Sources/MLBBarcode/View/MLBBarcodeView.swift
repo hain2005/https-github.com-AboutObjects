@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @available(iOS 13.0.0, *)
 public struct MLBBarcodeView<Content: View>: View {
     @ObservedObject var barcodeViewModel: BarcodeViewModel
@@ -15,7 +16,7 @@ public struct MLBBarcodeView<Content: View>: View {
     let ticket: Ticket
 
     @State var previousURL: URL? = nil
-    @State var imageData: Data = Data()
+    @State var imageData: UIImage? //Data = Data()
 
     public init(
         ticket: Ticket,
@@ -40,8 +41,10 @@ public struct MLBBarcodeView<Content: View>: View {
 //            }
 //        }
 
-        let uiImage = imageData.isEmpty ? nil : UIImage(data: imageData)
-        let image = uiImage != nil ? Image(uiImage: uiImage!) : nil;
+        //let uiImage = imageData.isEmpty ? nil : UIImage(data: imageData)
+        
+        let image = imageData != nil ? Image(uiImage: imageData!) : nil;
+
 
         return ZStack() {
             if image != nil {
@@ -54,7 +57,7 @@ public struct MLBBarcodeView<Content: View>: View {
     }
 
   private func loadImage() {
-      barcodeViewModel.generateTicket(myTicket: ticket)
+      imageData = barcodeViewModel.generateTicket(myTicket: ticket)
   }
 }
 
