@@ -46,7 +46,7 @@ public struct MLBBarcodeView<Content: View>: View {
         let image = imageData != nil ? Image(uiImage: imageData!) : nil;
 
 
-        return ZStack() {
+        return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
 
