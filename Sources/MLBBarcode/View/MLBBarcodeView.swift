@@ -13,17 +13,14 @@ public struct MLBBarcodeView<Content: View>: View {
     @ObservedObject var barcodeViewModel: BarcodeViewModel
     var content: (_ image: Image) -> Content
     let placeHolder: Image = Image("PDF417")
-    let ticket: Ticket
 
     @State var previousURL: URL? = nil
     @State var imageData: UIImage?
 
     public init(
-        ticket: Ticket,
         barcodeViewModel: BarcodeViewModel,
         content: @escaping (_ image: Image) -> Content
     ) {
-        self.ticket = ticket
         self.barcodeViewModel = barcodeViewModel
         self.content = content
     }
@@ -46,7 +43,7 @@ public struct MLBBarcodeView<Content: View>: View {
     }
 
     private func loadImage() {
-      imageData = barcodeViewModel.generateTicket(myTicket: ticket)
+      imageData = barcodeViewModel.generateTicket()
     }
     
     private func startTimer() {

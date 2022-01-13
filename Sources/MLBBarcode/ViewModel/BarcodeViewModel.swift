@@ -24,7 +24,7 @@ public class BarcodeViewModel: ObservableObject {
         
         timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timePeriod), repeats: true) { _ in
             
-            if let image = self.generateTicket(myTicket: self.ticket) {
+            if let image = self.generateTicket() {
                 self.bcImage = image
             }
             
@@ -52,9 +52,8 @@ public class BarcodeViewModel: ObservableObject {
         return nil
     }
     
-    func generateTicket(myTicket: Ticket) -> UIImage? {
+    func generateTicket() -> UIImage? {
         
-        ticket = myTicket
         if let ciImage = fetch(ticketNumber: ticket.ticketNumber) {
             return convertCIImageToUIImage(ciimage: ciImage)
         }
