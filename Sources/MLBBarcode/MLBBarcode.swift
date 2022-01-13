@@ -9,7 +9,7 @@ typealias CompletionHandler = (_ success : UIImage) -> Void
 @available(iOS 14, macOS 11.0, *)
 public struct MLBBarcode {
     
-    //var barcodeViewModel : BarcodeViewModel
+    var barcodeViewModel : BarcodeViewModel?
     private var cancellables = [AnyCancellable]()
     private var myTicket : Ticket
     public init(ticket : Ticket) {
@@ -20,15 +20,20 @@ public struct MLBBarcode {
     mutating public func generateTicket(completionHandler: @escaping (_ image: UIImage) -> Void){
          //.. Code process
         
-        let barcodeViewModel = BarcodeViewModel(myTicket: myTicket)
+        barcodeViewModel = BarcodeViewModel(myTicket: myTicket)
         
-        barcodeViewModel.$bcImage.sink { bcimage in
+        barcodeViewModel?.$bcImage.sink { bcimage in
             
             //let error = Error()
             completionHandler(bcimage) // return data & close
         }.store(in: &cancellables)
 
     }
+    
+//    public func observe(handler: @escaping LDFlagChangeHandler) {
+//        flagChangeNotifier.addFlagChangeObserver(FlagChangeObserver(key: key, owner: owner, flagChangeHandler: handler))
+//    }
+
     
 //    mutating func generateTicket(completionHandler: CompletionHandler) {
 //

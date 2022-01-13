@@ -7,6 +7,7 @@
 
 import Combine
 import SwiftUI
+import CryptoKit
 
 @available(iOS 14, macOS 11.0, *)
 public class BarcodeViewModel: ObservableObject {
@@ -27,7 +28,7 @@ public class BarcodeViewModel: ObservableObject {
             }
             
         }
-        timer?.fire()
+        //timer?.fire()
 
     }
 
@@ -39,7 +40,7 @@ public class BarcodeViewModel: ObservableObject {
     public func fetch(ticketNumber: String) -> CIImage? {
         let sharedSecret = barcodeService.fetch(ticketNumber: ticketNumber)
         let timeStamp = NSDate().timeIntervalSince1970
-        ticket.TOTP = hashIt(string: sharedSecret ?? "" + String(timeStamp))
+        ticket.TOTP = hashIt(secretKey: sharedSecret ?? "",  timestamp: String(timeStamp))
         
         if let image = createBC(from: ticket.barcodeString,
                                 descriptor: .pdf417,
@@ -62,8 +63,13 @@ public class BarcodeViewModel: ObservableObject {
 
     }
     
-    private func hashIt(string: String) -> String {
-        return string
+    private func hashIt(secretKey: String, timestamp: String) -> String {
+        
+        let inputString = secretKey + timestamp
+        let inputData = Data(inputString.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        let totp = hashed.compactMap { String(format: "%02x", $0) }.joined()
+        return totp
     }
     
     private func createBC(from string: String,
@@ -91,16 +97,6 @@ public class BarcodeViewModel: ObservableObject {
 
         return scaledImage
         
-//        let data = bcString.data(using: String.Encoding.ascii)
-//        if let filter = CIFilter(name: "CICode128BarcodeGenerator") {
-//            filter.setValue(data, forKey: "inputMessage")
-//            let transform = CGAffineTransform(scaleX: 3, y: 3)
-//
-//            if let output = filter.outputImage?.transformed(by: transform) {
-//                 return output
-//            }
-//        }
-//        return nil
     }
     
     private func convertCIImageToUIImage(ciimage : CIImage) -> UIImage{
