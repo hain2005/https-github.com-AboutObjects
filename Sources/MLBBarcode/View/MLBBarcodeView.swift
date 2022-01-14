@@ -38,8 +38,10 @@ public struct MLBBarcodeView<Content: View>: View {
         
         return VStack() {
             Text("Barcode Scan Helper")
-                 .padding()
-                        
+                .padding(.bottom, 3)
+            Text("Refresh in \(timeInterval - currentCount) secs ")
+                .padding()
+
             if image != nil {
                 GeometryReader { geo in
                     content(image!)
@@ -77,8 +79,6 @@ public struct MLBBarcodeView<Content: View>: View {
                     Text("Please wait ...")
                 } //content(placeHolder)
             }
-            Text("Refresh in \(timeInterval - currentCount) secs ")
-                .padding(.top, 5)
         }
         .onAppear {
             loadImage()
