@@ -44,7 +44,8 @@ public struct MLBBarcodeView<Content: View>: View {
                 GeometryReader { geo in
                     content(image!)
                     ZStack(alignment: .leading) {
-                        Image("vLine")
+                        //Image("vLine")
+                        Image(packageResource: "vLine", ofType: "png")
                             .resizable()
                             .offset(x: xVal, y: 0)
                             .transition(.slide)
@@ -110,5 +111,28 @@ struct MLBBarcodeView_Previews: PreviewProvider {
                 .animation(.easeInOut(duration: 1.0))
             }
         }
+    }
+}
+
+@available(iOS 13.0, *)
+extension Image {
+    init(packageResource name: String, ofType type: String) {
+//        #if canImport(UIKit)
+//        guard let path = Bundle.module.path(forResource: name, ofType: type),
+//              let image = UIImage(contentsOfFile: path) else {
+//            self.init(name)
+//            return
+//        }
+//        self.init(uiImage: image)
+        #if canImport(AppKit)
+        guard let path = Bundle.module.path(forResource: name, ofType: type),
+              let image = NSImage(contentsOfFile: path) else {
+            self.init(name)
+            return
+        }
+        self.init(nsImage: image)
+        #else
+        self.init(name)
+        #endif
     }
 }
