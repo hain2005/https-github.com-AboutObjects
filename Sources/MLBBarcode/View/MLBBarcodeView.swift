@@ -65,8 +65,6 @@ public struct MLBBarcodeView<Content: View>: View {
                                 }
                             }
                             .frame(width: 5, height: 165, alignment: .leading)
-                        Text("Refresh in \(timeInterval - currentCount) secs ")
-             
                     }
                 }
 
@@ -78,7 +76,8 @@ public struct MLBBarcodeView<Content: View>: View {
                     Text("Please wait ...")
                 } //content(placeHolder)
             }
-
+            Text("Refresh in \(timeInterval - currentCount) secs ")
+                .padding(.top, 5)
         }
         .onAppear {
             loadImage()
