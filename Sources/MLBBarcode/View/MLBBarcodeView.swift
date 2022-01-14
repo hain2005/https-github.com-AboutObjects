@@ -41,13 +41,11 @@ public struct MLBBarcodeView<Content: View>: View {
                  .padding()
                         
             if image != nil {
-                let imageHeight = barcodeImage?.size.height
                 GeometryReader { geo in
                     content(image!)
                     ZStack(alignment: .leading) {
                         Image("vLine")
                             .resizable()
-                            //.aspectRatio(contentMode: .fit)
                             .offset(x: xVal, y: 0)
                             .transition(.slide)
                             .padding(.leading , 0)
@@ -66,7 +64,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                                 }
                             }
-                            .frame(width: 5, height: imageHeight, alignment: .leading)
+                            .frame(width: 5, height: 165, alignment: .leading)
                     }
                 }
 
