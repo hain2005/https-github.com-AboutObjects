@@ -35,11 +35,13 @@ public struct MLBBarcodeView<Content: View>: View {
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
 
+        
         return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
                         
             if image != nil {
+                let imageHeight = barcodeImage?.size.height
                 GeometryReader { geo in
                     content(image!)
                     ZStack(alignment: .leading) {
@@ -64,7 +66,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                                 }
                             }
-                            .frame(width: 5, height: 165, alignment: .leading)
+                            .frame(width: 5, height: imageHeight, alignment: .leading)
                     }
                 }
 
