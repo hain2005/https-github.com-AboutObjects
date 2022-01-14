@@ -41,31 +41,32 @@ public struct MLBBarcodeView<Content: View>: View {
                         
             if image != nil {
                 GeometryReader { geo in
-                content(image!)
-                ZStack(alignment: .leading) {
-                    Image("vLine")
-                        .resizable()
-                        //.aspectRatio(contentMode: .fit)
-                        .offset(x: xVal, y: 0)
-                        .transition(.slide)
-                        .padding(.leading , 0)
-                        .onReceive(timerVLine) {_ in
-                            if isMovingRight {
-                                xVal += 1
-                                if xVal == geo.size.width {
-                                     isMovingRight = false
+                    content(image!)
+                    ZStack(alignment: .leading) {
+                        Image("vLine")
+                            .resizable()
+                            //.aspectRatio(contentMode: .fit)
+                            .offset(x: xVal, y: 0)
+                            .transition(.slide)
+                            .padding(.leading , 0)
+                            .onReceive(timerVLine) {_ in
+                                if isMovingRight {
+                                    xVal += 1
+                                    if xVal == geo.size.width {
+                                         isMovingRight = false
+                                    }
+                                }
+                                else {
+                                    xVal -= 1
+                                    if xVal == 0 {
+                                         isMovingRight = true
+                                    }
+
                                 }
                             }
-                            else {
-                                xVal -= 1
-                                if xVal == 0 {
-                                     isMovingRight = true
-                                }
-
-                            }
-                        }
-                        .frame(width: 5, height: 165, alignment: .leading)
-
+                            .frame(width: 5, height: 165, alignment: .leading)
+                        Text("Refresh in \(timeInterval - currentCount) secs ")
+             
                     }
                 }
 
@@ -78,7 +79,6 @@ public struct MLBBarcodeView<Content: View>: View {
                 } //content(placeHolder)
             }
 
-            Text("Refresh in \(timeInterval - currentCount) secs ")
         }
         .onAppear {
             loadImage()
