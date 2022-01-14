@@ -34,13 +34,22 @@ public struct MLBBarcodeView<Content: View>: View {
         return VStack() {
             Text("Barcode Scan Helper")
                  .padding()
-           if image != nil {
+                        
+            if image != nil {
                 content(image!)
             } else {
-                content(placeHolder)
+                if #available(iOS 14.0, *) {
+                    ProgressView()
+                } else {
+                    // Fallback on earlier versions
+                    Text("Please wait ...")
+                } //content(placeHolder)
             }
 
             Text("Refresh in \(timeInterval - currentCount) secs ")
+        }
+        .onAppear {
+            loadImage()
         }
         .onReceive(timer) { input in
             currentCount += 1
