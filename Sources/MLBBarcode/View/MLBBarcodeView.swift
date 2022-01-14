@@ -20,6 +20,10 @@ public struct MLBBarcodeView<Content: View>: View {
     @State var barcodeImage: UIImage?
     @State var currentCount = 0
 
+    @State private var xVal: CGFloat = 0.0
+    @State private var timerVLine = Timer.publish(every: 0.007, on: .main, in: .common).autoconnect()
+    @State private var isMovingRight = true
+
     public init(
         barcodeViewModel: BarcodeViewModel,
         content: @escaping (_ image: Image) -> Content
@@ -36,7 +40,35 @@ public struct MLBBarcodeView<Content: View>: View {
                  .padding()
                         
             if image != nil {
+                GeometryReader { geo in
                 content(image!)
+                ZStack(alignment: .leading) {
+                    Image("vLine")
+                        .resizable()
+                        //.aspectRatio(contentMode: .fit)
+                        .offset(x: xVal, y: 0)
+                        .transition(.slide)
+                        .padding(.leading , 0)
+                        .onReceive(timerVLine) {_ in
+                            if isMovingRight {
+                                xVal += 1
+                                if xVal == geo.size.width {
+                                     isMovingRight = false
+                                }
+                            }
+                            else {
+                                xVal -= 1
+                                if xVal == 0 {
+                                     isMovingRight = true
+                                }
+
+                            }
+                        }
+                        .frame(width: 5, height: 300, alignment: .topLeading)
+
+                    }
+                }
+
             } else {
                 if #available(iOS 14.0, *) {
                     ProgressView()
