@@ -21,7 +21,7 @@ public struct MLBBarcodeView<Content: View>: View {
     @State var currentCount = 0
 
     @State private var xVal: CGFloat = 0.0
-    @State private var timerVLine = Timer.publish(every: 0.007, on: .main, in: .common).autoconnect()
+    @State private var timerVLine = Timer.publish(every: 0.005, on: .main, in: .common).autoconnect()
     @State private var isMovingRight = true
 
     public init(
@@ -64,7 +64,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                             }
                         }
-                        .frame(width: 5, height: 155, alignment: .leading)
+                        .frame(width: 5, height: 165, alignment: .leading)
 
                     }
                 }
