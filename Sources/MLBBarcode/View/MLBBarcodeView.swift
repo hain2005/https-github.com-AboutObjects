@@ -46,8 +46,8 @@ public struct MLBBarcodeView<Content: View>: View {
                 GeometryReader { geo in
                     content(image!)
                     ZStack(alignment: .leading) {
-                        Image("vLine")
-                        //Image(packageResource: "vLine", ofType: "png")
+                        //Image("vLine")
+                        Image(packageResource: "vLine", ofType: "png")
                             .resizable()
                             .offset(x: xVal, y: 0)
                             .transition(.slide)
