@@ -35,7 +35,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
-        imageHeight = barcodeImage?.size.height ?? 0
+        //imageHeight = barcodeImage?.size.height ?? 0
 
         
         return VStack() {
@@ -47,6 +47,7 @@ public struct MLBBarcodeView<Content: View>: View {
             if image != nil {
                 GeometryReader { geo in
                     content(image!)
+                        .background(rectReader())
                     ZStack(alignment: .leading) {
                         Image(packageResource: "vLine", ofType: "png")
                             .resizable()
@@ -68,7 +69,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                                 }
                             }
-                            .frame(width: 5, height: 165, alignment: .leading)
+                            .frame(width: 5, height: self.imageHeight, alignment: .leading)
                     }
                 }
 
@@ -95,6 +96,17 @@ public struct MLBBarcodeView<Content: View>: View {
 
     private func loadImage() {
         barcodeImage = barcodeViewModel.generateTicket()
+    }
+    
+    private func rectReader() -> some View {
+        return GeometryReader { (geometry) -> AnyView in
+            let imageSize = geometry.size
+            DispatchQueue.main.async {
+                //print(">> \(imageSize)") // use image actual size in your calculations
+                self.imageHeight = imageSize.height
+            }
+            return AnyView(Rectangle().fill(Color.clear))
+        }
     }
 }
 
