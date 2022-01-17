@@ -68,7 +68,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                                 }
                             }
-                            .frame(width: 5, height: self.imageHeight, alignment: .leading)
+                            .frame(width: 5, height: 165, alignment: .leading)
                     }
                 }
 
