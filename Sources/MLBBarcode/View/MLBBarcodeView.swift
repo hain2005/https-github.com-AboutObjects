@@ -13,7 +13,6 @@ public struct MLBBarcodeView<Content: View>: View {
     
     var content: (_ image: Image) -> Content
     let placeHolder: Image = Image("PDF417")
-    let timeInterval = 5
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @ObservedObject var barcodeViewModel: BarcodeViewModel
@@ -35,13 +34,11 @@ public struct MLBBarcodeView<Content: View>: View {
 
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
-        //imageHeight = barcodeImage?.size.height ?? 0
-
         
         return VStack() {
             Text("Barcode Scan Helper")
                 .padding(.bottom, 3)
-            Text("Refresh in \(timeInterval - currentCount) secs ")
+            Text("Refresh in \(barcodeViewModel.timeStep - currentCount) secs ")
                 .padding()
 
             if image != nil {
@@ -79,7 +76,7 @@ public struct MLBBarcodeView<Content: View>: View {
                 } else {
                     // Fallback on earlier versions
                     Text("Please wait ...")
-                } //content(placeHolder)
+                }
             }
         }
         .onAppear {
@@ -87,7 +84,7 @@ public struct MLBBarcodeView<Content: View>: View {
         }
         .onReceive(timer) { input in
             currentCount += 1
-            if currentCount == timeInterval {
+            if currentCount == barcodeViewModel.timeStep {
                 loadImage()
                 currentCount = 0
             }

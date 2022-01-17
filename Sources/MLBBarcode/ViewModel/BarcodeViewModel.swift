@@ -15,7 +15,7 @@ public class BarcodeViewModel: ObservableObject {
     @Published var bcImage = UIImage()
     let barcodeService = BarcodeService()
     var ticket: Ticket
-    let timePeriod = 5
+    let timeStep = 5 // secs for testing for rotating bc - to be loaded from service
 
     public init(myTicket: Ticket) {
         ticket = myTicket
