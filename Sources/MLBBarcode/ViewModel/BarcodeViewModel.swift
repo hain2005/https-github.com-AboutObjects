@@ -7,7 +7,7 @@
 
 import Combine
 import SwiftUI
-import CryptoKit
+import SwiftOTP
 
 @available(iOS 13, macOS 11.0, *)
 public class BarcodeViewModel: ObservableObject {
@@ -49,9 +49,9 @@ public class BarcodeViewModel: ObservableObject {
         
         let inputString = secretKey + timestamp
         let inputData = Data(inputString.utf8)
-        let hashed = SHA256.hash(data: inputData)
-        let totp = hashed.compactMap { String(format: "%02x", $0) }.joined()
-        return totp
+        let totp = TOTP(secret: inputData, digits: 6, timeInterval: 30, algorithm: .sha1)
+        let t = totp?.generate(time: Date())
+        return t ?? ""
     }
     
     private func createBC(from string: String,
