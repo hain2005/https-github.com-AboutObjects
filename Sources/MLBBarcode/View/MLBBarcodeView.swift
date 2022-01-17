@@ -19,6 +19,7 @@ public struct MLBBarcodeView<Content: View>: View {
     @ObservedObject var barcodeViewModel: BarcodeViewModel
     @State var barcodeImage: UIImage?
     @State var currentCount = 0
+    @State var imageHeight: CGFloat = 0
 
     @State private var xVal: CGFloat = 0.0
     @State private var timerVLine = Timer.publish(every: 0.005, on: .main, in: .common).autoconnect()
@@ -34,6 +35,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
     public var body: some View {
         let image = barcodeImage != nil ? Image(uiImage: barcodeImage!) : nil;
+        imageHeight = barcodeImage?.size.height ?? 0
 
         
         return VStack() {
@@ -46,7 +48,6 @@ public struct MLBBarcodeView<Content: View>: View {
                 GeometryReader { geo in
                     content(image!)
                     ZStack(alignment: .leading) {
-                        //Image("vLine")
                         Image(packageResource: "vLine", ofType: "png")
                             .resizable()
                             .offset(x: xVal, y: 0)
@@ -67,7 +68,7 @@ public struct MLBBarcodeView<Content: View>: View {
 
                                 }
                             }
-                            .frame(width: 5, height: 165, alignment: .leading)
+                            .frame(width: 5, height: self.imageHeight, alignment: .leading)
                     }
                 }
 
