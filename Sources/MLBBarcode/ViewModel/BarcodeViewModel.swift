@@ -23,8 +23,7 @@ public class BarcodeViewModel: ObservableObject {
 
     public func fetch(ticketNumber: String) -> CIImage? {
         let sharedSecret = barcodeService.fetch(ticketNumber: ticketNumber)
-        let timeStamp = NSDate().timeIntervalSince1970
-        ticket.TOTP = hashIt(secretKey: sharedSecret ?? "",  timestamp: String(timeStamp))
+        ticket.TOTP = getTOTP(secretKey: sharedSecret ?? "")
         
         if let image = createBC(from: ticket.barcodeString,
                                 descriptor: .pdf417,
@@ -45,13 +44,12 @@ public class BarcodeViewModel: ObservableObject {
         }
     }
     
-    private func hashIt(secretKey: String, timestamp: String) -> String {
+    private func getTOTP(secretKey: String) -> String {
         
-        let inputString = secretKey + timestamp
-        let inputData = Data(inputString.utf8)
-        let totp = TOTP(secret: inputData, digits: 6, timeInterval: 30, algorithm: .sha1)
-        let t = totp?.generate(time: Date())
-        return t ?? ""
+        let inputData = Data(secretKey.utf8)
+        let totp = TOTP(secret: inputData, digits: 6, timeInterval: timeStep, algorithm: .sha1)
+        let totpString = totp?.generate(time: Date())
+        return totpString ?? ""
     }
     
     private func createBC(from string: String,
