@@ -110,8 +110,9 @@ public struct MLBBarcodeView<Content: View>: View {
 @available(iOS 13.0.0, *)
 struct MLBBarcodeView_Previews: PreviewProvider {
     static var previews: some View {
+        let patronId =  1
         let ticket = Ticket(ticketNumber: "12345")
-        let barcodeViewModel = BarcodeViewModel(myTicket: ticket)
+        let barcodeViewModel = BarcodeViewModel(barcodeService: BarcodeService(), patronId: patronId, myTicket: ticket)
 
         return VStack {
             MLBBarcodeView(barcodeViewModel: barcodeViewModel) {

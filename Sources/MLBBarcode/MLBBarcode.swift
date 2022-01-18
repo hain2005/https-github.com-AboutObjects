@@ -17,7 +17,9 @@ public struct MLBBarcode {
 
     mutating public func generateTicket(completionHandler: @escaping (_ image: UIImage) -> Void){
  
-        let barcodeViewModel = BarcodeViewModel(myTicket: myTicket)
+        let barcodeService = BarcodeService()
+        let patronId = 1
+        let barcodeViewModel = BarcodeViewModel(barcodeService: barcodeService, patronId: patronId, myTicket: myTicket)
             barcodeViewModel.$bcImage.sink { bcimage in
             completionHandler(bcimage) // return data & close
         }.store(in: &cancellables)

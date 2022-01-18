@@ -7,31 +7,35 @@
 
 import Foundation
 
+protocol BarcodeServiceProtocol {
+    func fetch(patronId: Int, ticketNumber: String) -> String? 
+}
+
 enum DownloadError: Error {
   case statusNotOk
   case decoderError
 }
 
 @available(iOS 13.0.0, *)
-class BarcodeService {
+    public class BarcodeService: BarcodeServiceProtocol {
 
     private var url: URL {
       // swiftlint:disable:next force_unwrapping
-      urlComponents.url!
+        urlComponents.url!
     }
 
     private var urlComponents: URLComponents {
-      var components = URLComponents()
-      components.scheme = "https"
-      components.host = "api.mlb...."
-      components.path = "/sharedsecret"
-      return components
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.mlb...."
+        components.path = "/sharedsecret"
+        return components
     }
     public init() {
       
     }
 
-    public func fetch(ticketNumber: String) -> String? {
+    public func fetch(patronId: Int, ticketNumber: String) -> String? {
         
         return String(Int.random(in: 1..<10000))
 
