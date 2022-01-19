@@ -9,11 +9,9 @@ import Combine
 import SwiftUI
 import SwiftOTP
 
-
 public protocol BarcodeViewModelProtocol {
     func generateTicket() -> UIImage?
 }
-
 
 @available(iOS 13, macOS 11.0, *)
 public class BarcodeViewModel: ObservableObject {
@@ -24,8 +22,8 @@ public class BarcodeViewModel: ObservableObject {
     let barcodeService: BarcodeService
     var patronId: Int
     var ticket: Ticket
-    let timeStep = 5 // secs for testing for rotating bc - to be loaded from service
-
+    let timeStep = 30 // secs for testing for rotating bc - to be loaded from service
+    
     public init(barcodeService: BarcodeService, patronId: Int, myTicket: Ticket) {
         self.barcodeService = barcodeService
         self.patronId = patronId
@@ -34,8 +32,10 @@ public class BarcodeViewModel: ObservableObject {
 
     public func fetch(ticketNumber: String) -> CIImage? {
         let sharedSecret = barcodeService.fetch(patronId: 0, ticketNumber: ticketNumber)
-        ticket.TOTP = getTOTP(secretKey: sharedSecret ?? "")
-        
+        guard let totp = getTOTP(secretKey: sharedSecret) else {
+            return nil
+        }
+        ticket.TOTP = totp
         if let image = createBC(from: ticket.barcodeString,
                                 descriptor: .pdf417,
                                      size: CGSize(width: 800, height: 300)) {
@@ -55,12 +55,10 @@ public class BarcodeViewModel: ObservableObject {
         }
     }
     
-    private func getTOTP(secretKey: String) -> String {
-        
+    func getTOTP(secretKey: String) -> String? {
         let inputData = Data(secretKey.utf8)
         let totp = TOTP(secret: inputData, digits: 6, timeInterval: timeStep, algorithm: .sha1)
-        let totpString = totp?.generate(secondsPast1970: Int(NSDate().timeIntervalSince1970))
-        return totpString ?? ""
+        return totp?.generate(secondsPast1970: Int(NSDate().timeIntervalSince1970))
     }
     
     private func createBC(from string: String, descriptor: Descriptor, size: CGSize) -> CIImage? {
@@ -79,11 +77,8 @@ public class BarcodeViewModel: ObservableObject {
         }
 
         let imageSize = image.extent.size
-
-        let transform = CGAffineTransform(scaleX: size.width / imageSize.width,
-                                               y: size.height / imageSize.height)
+        let transform = CGAffineTransform(scaleX: size.width / imageSize.width, y: size.height / imageSize.height)
         let scaledImage = image.transformed(by: transform)
-
         return scaledImage
     }
     

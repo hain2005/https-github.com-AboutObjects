@@ -8,7 +8,7 @@
 import Foundation
 
 protocol BarcodeServiceProtocol {
-    func fetch(patronId: Int, ticketNumber: String) -> String? 
+    func fetch(patronId: Int, ticketNumber: String) -> String
 }
 
 enum DownloadError: Error {
@@ -35,7 +35,7 @@ enum DownloadError: Error {
       
     }
 
-    public func fetch(patronId: Int, ticketNumber: String) -> String? {
+    public func fetch(patronId: Int, ticketNumber: String) -> String {
         
         return String(Int.random(in: 1..<10000))
 
